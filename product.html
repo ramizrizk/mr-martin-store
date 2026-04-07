@@ -1,39 +1,153 @@
 <!DOCTYPE html>
-<html>
+<html lang="ar" dir="rtl">
 <head>
-  <title>Product</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تفاصيل المنتج - MR MARTIN</title>
+  <style>
+    body {
+      margin: 0;
+      background: #0b0b0b;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .box {
+      max-width: 700px;
+      margin: auto;
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 20px;
+      padding: 30px;
+    }
+
+    img {
+      width: 100%;
+      max-height: 450px;
+      object-fit: cover;
+      border-radius: 16px;
+    }
+
+    h1 {
+      margin-top: 20px;
+      font-size: 36px;
+    }
+
+    .price {
+      font-size: 28px;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+
+    p {
+      color: #bbb;
+      line-height: 1.8;
+      font-size: 18px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 25px;
+    }
+
+    .buttons a,
+    .buttons button {
+      background: white;
+      color: black;
+      text-decoration: none;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
 </head>
-<body style="background:black;color:white;text-align:center;padding:50px;font-family:Arial">
+<body>
+  <div class="box">
+    <img id="productImage" src="" alt="product">
+    <h1 id="productName"></h1>
+    <div class="price">$<span id="productPrice"></span></div>
+    <p id="productDesc"></p>
 
-<h1 id="name"></h1>
-<p id="price"></p>
+    <div class="buttons">
+      <button onclick="addCurrentToCart()">أضف للسلة</button>
+      <a href="index.html">الرجوع للمتجر</a>
+    </div>
+  </div>
 
-<a href="index.html" style="background:white;color:black;padding:10px 20px;text-decoration:none;">رجوع</a>
+  <script>
+    const products = {
+      jacket: {
+        name: "جاكيت أسود فاخر",
+        price: 120,
+        image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=80",
+        desc: "جاكيت رجالي فاخر بخامة عالية وتصميم أنيق مناسب للستايل العصري والراقي."
+      },
+      tshirt: {
+        name: "تيشيرت كلاسيك",
+        price: 40,
+        image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1000&q=80",
+        desc: "تيشيرت مريح بتصميم بسيط وأنيق يناسب اللبس اليومي بإحساس فاخر."
+      },
+      suit: {
+        name: "بدلة عصرية",
+        price: 180,
+        image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1000&q=80",
+        desc: "بدلة رجالي أنيقة للمناسبات والإطلالات الرسمية بتفصيل راقٍ."
+      },
+      pants: {
+        name: "بنطلون ستايل فاخر",
+        price: 65,
+        image: "https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1000&q=80",
+        desc: "بنطلون مريح وأنيق يناسب جميع الأوقات والستايل الكاجوال الراقي."
+      }
+    };
 
-<script>
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
+    let currentProduct = null;
 
-if(id == "jacket"){
-  document.getElementById("name").innerText = "جاكيت أسود فاخر";
-  document.getElementById("price").innerText = "$120";
-}
+    function getProductId() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("id");
+    }
 
-if(id == "tshirt"){
-  document.getElementById("name").innerText = "تيشيرت كلاسيك";
-  document.getElementById("price").innerText = "$40";
-}
+    function loadProduct() {
+      const id = getProductId();
+      const product = products[id];
 
-if(id == "suit"){
-  document.getElementById("name").innerText = "بدلة عصرية";
-  document.getElementById("price").innerText = "$180";
-}
+      if (!product) {
+        document.body.innerHTML = '<div style="color:white;padding:40px;">المنتج غير موجود</div>';
+        return;
+      }
 
-if(id == "pants"){
-  document.getElementById("name").innerText = "بنطلون فاخر";
-  document.getElementById("price").innerText = "$65";
-}
-</script>
+      currentProduct = product;
 
+      document.getElementById("productName").textContent = product.name;
+      document.getElementById("productPrice").textContent = product.price;
+      document.getElementById("productImage").src = product.image;
+      document.getElementById("productImage").alt = product.name;
+      document.getElementById("productDesc").textContent = product.desc;
+      document.title = product.name + " - MR MARTIN";
+    }
+
+    function addCurrentToCart() {
+      if (!currentProduct) return;
+
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push({
+        name: currentProduct.name,
+        price: currentProduct.price
+      });
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert("تمت إضافة المنتج إلى السلة");
+    }
+
+    loadProduct();
+  </script>
 </body>
 </html>
