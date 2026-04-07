@@ -27,7 +27,7 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: rgba(0,0,0,0.9);
+      background: rgba(0,0,0,0.95);
       border-bottom: 1px solid #222;
       padding: 18px 40px;
       display: flex;
@@ -42,7 +42,7 @@
     }
 
     nav a {
-      margin-right: 20px;
+      margin-left: 20px;
       color: #ddd;
       font-size: 15px;
     }
@@ -168,6 +168,17 @@
       font-size: 20px;
       font-weight: bold;
       margin-bottom: 15px;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .card-actions a,
+    .card-actions button {
+      flex: 1;
     }
 
     .card button {
@@ -313,6 +324,10 @@
         right: 10px;
         width: auto;
       }
+
+      .card-actions {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
@@ -364,9 +379,12 @@
         <div class="card-content">
           <h3>جاكيت أسود فاخر</h3>
           <div class="price">$120</div>
-         <a href="product.html">
-  <button>عرض التفاصيل</button>
-</a>
+          <div class="card-actions">
+            <a href="product.html?id=jacket">
+              <button>عرض التفاصيل</button>
+            </a>
+            <button onclick="addToCart('جاكيت أسود فاخر', 120)">أضف للسلة</button>
+          </div>
         </div>
       </div>
 
@@ -375,9 +393,12 @@
         <div class="card-content">
           <h3>تيشيرت كلاسيك</h3>
           <div class="price">$40</div>
-          <<a href="product.html">
-  <button>عرض التفاصيل</button>
-</a>
+          <div class="card-actions">
+            <a href="product.html?id=tshirt">
+              <button>عرض التفاصيل</button>
+            </a>
+            <button onclick="addToCart('تيشيرت كلاسيك', 40)">أضف للسلة</button>
+          </div>
         </div>
       </div>
 
@@ -386,9 +407,12 @@
         <div class="card-content">
           <h3>بدلة عصرية</h3>
           <div class="price">$180</div>
-          <a href="product.html">
-  <button>عرض التفاصيل</button>
-</a>
+          <div class="card-actions">
+            <a href="product.html?id=suit">
+              <button>عرض التفاصيل</button>
+            </a>
+            <button onclick="addToCart('بدلة عصرية', 180)">أضف للسلة</button>
+          </div>
         </div>
       </div>
 
@@ -397,9 +421,13 @@
         <div class="card-content">
           <h3>بنطلون ستايل فاخر</h3>
           <div class="price">$65</div>
-          <a href="product.html">
-  <button>عرض التفاصيل</button>
-</a>        </div>
+          <div class="card-actions">
+            <a href="product.html?id=pants">
+              <button>عرض التفاصيل</button>
+            </a>
+            <button onclick="addToCart('بنطلون ستايل فاخر', 65)">أضف للسلة</button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -445,10 +473,15 @@
   </footer>
 
   <script>
-    let cart = [];
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function saveCart() {
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
 
     function addToCart(name, price) {
       cart.push({ name, price });
+      saveCart();
       updateCart();
       alert("تمت إضافة المنتج إلى السلة");
     }
@@ -461,7 +494,7 @@
       cartItems.innerHTML = "";
       let total = 0;
 
-      cart.forEach((item, index) => {
+      cart.forEach((item) => {
         total += item.price;
         cartItems.innerHTML += `
           <div class="cart-item">
@@ -484,8 +517,22 @@
         alert("السلة فارغة");
         return;
       }
-      alert("دي نسخة تجريبية. لاحقًا نربطها بالطلبات والدفع الحقيقي.");
+
+      let message = "طلب جديد من موقع MR MARTIN:%0A";
+      let total = 0;
+
+      cart.forEach(item => {
+        message += "- " + item.name + " ($" + item.price + ")%0A";
+        total += item.price;
+      });
+
+      message += "%0Aالإجمالي: $" + total;
+
+      let phone = "201000000000";
+      window.open("https://wa.me/" + phone + "?text=" + message, "_blank");
     }
+
+    updateCart();
   </script>
 
 </body>
