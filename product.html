@@ -2,72 +2,111 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>تفاصيل المنتج - MR MARTIN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>تفاصيل المنتج</title>
+
   <style>
     body {
       margin: 0;
-      background: #0b0b0b;
+      background: black;
       color: white;
-      font-family: Arial, sans-serif;
-      padding: 40px 20px;
+      font-family: Arial;
       text-align: center;
-    }
-
-    .box {
-      max-width: 700px;
-      margin: auto;
-      background: #111;
-      border: 1px solid #222;
-      border-radius: 20px;
       padding: 30px;
     }
 
     img {
-      width: 100%;
-      max-height: 450px;
-      object-fit: cover;
-      border-radius: 16px;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 15px;
     }
 
     h1 {
       margin-top: 20px;
-      font-size: 36px;
     }
 
     .price {
-      font-size: 28px;
-      font-weight: bold;
-      margin: 15px 0;
+      font-size: 25px;
+      margin: 10px 0;
     }
 
     p {
       color: #bbb;
-      line-height: 1.8;
-      font-size: 18px;
+      max-width: 500px;
+      margin: auto;
     }
 
     a {
       display: inline-block;
-      margin-top: 25px;
-      padding: 12px 24px;
+      margin-top: 20px;
       background: white;
       color: black;
-      text-decoration: none;
+      padding: 10px 20px;
       border-radius: 10px;
-      font-weight: bold;
+      text-decoration: none;
     }
   </style>
 </head>
+
 <body>
-  <div class="box">
-    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=80" alt="product">
-    <h1>جاكيت أسود فاخر</h1>
-    <div class="price">$120</div>
-    <p>
-      جاكيت رجالي فاخر بتصميم أنيق وخامة ممتازة، مناسب للستايل العصري والراقي.
-    </p>
-    <a href="index.html">الرجوع للمتجر</a>
-  </div>
+
+  <img id="productImage" src="">
+  <h1 id="productName"></h1>
+  <div class="price">$<span id="productPrice"></span></div>
+  <p id="productDesc"></p>
+
+  <a href="index.html">رجوع</a>
+
+  <script>
+    const products = {
+      jacket: {
+        name: "جاكيت أسود فاخر",
+        price: 120,
+        image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f",
+        desc: "جاكيت رجالي فاخر بخامة عالية وتصميم أنيق."
+      },
+      tshirt: {
+        name: "تيشيرت كلاسيك",
+        price: 40,
+        image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518",
+        desc: "تيشيرت مريح بتصميم بسيط وأنيق."
+      },
+      suit: {
+        name: "بدلة عصرية",
+        price: 180,
+        image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf",
+        desc: "بدلة رجالي أنيقة للمناسبات."
+      },
+      pants: {
+        name: "بنطلون فاخر",
+        price: 65,
+        image: "https://images.unsplash.com/photo-1523398002811-999ca8dec234",
+        desc: "بنطلون مريح وأنيق يناسب جميع الأوقات."
+      }
+    };
+
+    function getProduct() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("id");
+    }
+
+    function loadProduct() {
+      const id = getProduct();
+      const product = products[id];
+
+      if (!product) {
+        document.body.innerHTML = "المنتج غير موجود";
+        return;
+      }
+
+      document.getElementById("productName").textContent = product.name;
+      document.getElementById("productPrice").textContent = product.price;
+      document.getElementById("productImage").src = product.image;
+      document.getElementById("productDesc").textContent = product.desc;
+    }
+
+    loadProduct();
+  </script>
+
 </body>
 </html>
