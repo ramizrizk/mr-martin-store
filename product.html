@@ -1,112 +1,39 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>تفاصيل المنتج</title>
-
-  <style>
-    body {
-      margin: 0;
-      background: black;
-      color: white;
-      font-family: Arial;
-      text-align: center;
-      padding: 30px;
-    }
-
-    img {
-      width: 90%;
-      max-width: 400px;
-      border-radius: 15px;
-    }
-
-    h1 {
-      margin-top: 20px;
-    }
-
-    .price {
-      font-size: 25px;
-      margin: 10px 0;
-    }
-
-    p {
-      color: #bbb;
-      max-width: 500px;
-      margin: auto;
-    }
-
-    a {
-      display: inline-block;
-      margin-top: 20px;
-      background: white;
-      color: black;
-      padding: 10px 20px;
-      border-radius: 10px;
-      text-decoration: none;
-    }
-  </style>
+  <title>Product</title>
 </head>
+<body style="background:black;color:white;text-align:center;padding:50px;font-family:Arial">
 
-<body>
+<h1 id="name"></h1>
+<p id="price"></p>
 
-  <img id="productImage" src="">
-  <h1 id="productName"></h1>
-  <div class="price">$<span id="productPrice"></span></div>
-  <p id="productDesc"></p>
+<a href="index.html" style="background:white;color:black;padding:10px 20px;text-decoration:none;">رجوع</a>
 
-  <a href="index.html">رجوع</a>
+<script>
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
 
-  <script>
-    const products = {
-      jacket: {
-        name: "جاكيت أسود فاخر",
-        price: 120,
-        image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f",
-        desc: "جاكيت رجالي فاخر بخامة عالية وتصميم أنيق."
-      },
-      tshirt: {
-        name: "تيشيرت كلاسيك",
-        price: 40,
-        image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518",
-        desc: "تيشيرت مريح بتصميم بسيط وأنيق."
-      },
-      suit: {
-        name: "بدلة عصرية",
-        price: 180,
-        image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf",
-        desc: "بدلة رجالي أنيقة للمناسبات."
-      },
-      pants: {
-        name: "بنطلون فاخر",
-        price: 65,
-        image: "https://images.unsplash.com/photo-1523398002811-999ca8dec234",
-        desc: "بنطلون مريح وأنيق يناسب جميع الأوقات."
-      }
-    };
+if(id == "jacket"){
+  document.getElementById("name").innerText = "جاكيت أسود فاخر";
+  document.getElementById("price").innerText = "$120";
+}
 
-    function getProduct() {
-      const params = new URLSearchParams(window.location.search);
-      return params.get("id");
-    }
+if(id == "tshirt"){
+  document.getElementById("name").innerText = "تيشيرت كلاسيك";
+  document.getElementById("price").innerText = "$40";
+}
 
-    function loadProduct() {
-      const id = getProduct();
-      const product = products[id];
+if(id == "suit"){
+  document.getElementById("name").innerText = "بدلة عصرية";
+  document.getElementById("price").innerText = "$180";
+}
 
-      if (!product) {
-        document.body.innerHTML = "المنتج غير موجود";
-        return;
-      }
-
-      document.getElementById("productName").textContent = product.name;
-      document.getElementById("productPrice").textContent = product.price;
-      document.getElementById("productImage").src = product.image;
-      document.getElementById("productDesc").textContent = product.desc;
-    }
-
-    loadProduct();
-  </script>
+if(id == "pants"){
+  document.getElementById("name").innerText = "بنطلون فاخر";
+  document.getElementById("price").innerText = "$65";
+}
+</script>
 
 </body>
 </html>
